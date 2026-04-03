@@ -3,312 +3,314 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BriefAI — Noticias del mundo sin sesgos</title>
-  <meta name="description" content="BriefAI sintetiza noticias de medios internacionales con IA para darte una visión neutral e imparcial del mundo." />
+  <title>BriefAI — Periodismo neutral impulsado por IA</title>
+  <meta name="description" content="BriefAI genera artículos completos y neutrales sintetizando fuentes internacionales con inteligencia artificial." />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --bg: #ffffff;
-      --bg2: #f7f7f5;
-      --border: rgba(0,0,0,0.1);
-      --text: #1a1a1a;
-      --text2: #666660;
-      --text3: #999994;
-      --blue: #378ADD;
-      --blue-dark: #185FA5;
-      --green: #3B6D11;
+      --bg: #ffffff; --bg2: #f7f7f5; --bg3: #efefec;
+      --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.18);
+      --text: #1a1a1a; --text2: #555550; --text3: #99998f;
+      --blue: #2563eb; --blue-dark: #1d4ed8;
+      --green: #16a34a; --amber: #d97706; --red: #dc2626;
       --radius: 12px;
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #1a1a1a;
-        --bg2: #242424;
-        --border: rgba(255,255,255,0.1);
-        --text: #f0f0ee;
-        --text2: #a0a09a;
-        --text3: #666660;
+        --bg: #141414; --bg2: #1e1e1e; --bg3: #282828;
+        --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.18);
+        --text: #f0f0ee; --text2: #a0a09a; --text3: #66665e;
       }
     }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-    /* Header */
-    header { border-bottom: 0.5px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; max-width: 860px; margin: 0 auto; }
-    .logo { font-size: 20px; font-weight: 600; color: var(--text); text-decoration: none; }
+    /* ── HEADER ── */
+    header { border-bottom: 0.5px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; max-width: 1100px; margin: 0 auto; }
+    .logo { font-size: 20px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.5px; }
     .logo span { color: var(--blue); }
-    .live { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text3); }
-    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: #3B6D11; animation: pulse 2s infinite; }
+    .header-right { display: flex; align-items: center; gap: 14px; }
+    .live { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text3); }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .lang-select { height: 32px; padding: 0 10px; border: 0.5px solid var(--border); border-radius: 8px; font-size: 13px; background: var(--bg); color: var(--text); cursor: pointer; }
 
-    /* Main */
-    main { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem; }
-
-    /* Search */
-    .search-wrap { margin-bottom: 1.5rem; }
+    /* ── SEARCH ── */
+    .search-section { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.5rem 0; }
     .search-row { display: flex; gap: 8px; }
-    .search-row input { flex: 1; height: 44px; padding: 0 16px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 15px; background: var(--bg); color: var(--text); outline: none; transition: border-color .2s; }
+    .search-row input { flex: 1; height: 44px; padding: 0 16px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 15px; background: var(--bg); color: var(--text); outline: none; transition: border-color .2s; }
     .search-row input:focus { border-color: var(--blue); }
-    .search-row select { height: 44px; padding: 0 12px; border: 0.5px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--bg); color: var(--text); cursor: pointer; }
-    .search-row button { height: 44px; padding: 0 20px; background: var(--blue); color: white; border: none; border-radius: var(--radius); font-size: 15px; cursor: pointer; white-space: nowrap; transition: background .2s; }
+    .search-row button { height: 44px; padding: 0 22px; background: var(--blue); color: white; border: none; border-radius: var(--radius); font-size: 15px; cursor: pointer; font-weight: 500; transition: background .15s; white-space: nowrap; }
     .search-row button:hover { background: var(--blue-dark); }
 
-    /* Tags */
-    .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-    .tag { padding: 5px 12px; border: 0.5px solid var(--border); border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--text2); background: var(--bg); transition: all .15s; }
-    .tag:hover { background: var(--bg2); color: var(--text); border-color: var(--blue); }
+    /* ── TRENDING TAGS ── */
+    .trending-section { max-width: 1100px; margin: 0 auto; padding: 1rem 1.5rem; }
+    .trending-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+    .tags { display: flex; gap: 7px; flex-wrap: wrap; }
+    .tag { padding: 5px 12px; border: 0.5px solid var(--border); border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--text2); background: var(--bg); transition: all .15s; white-space: nowrap; }
+    .tag:hover { background: var(--blue); color: white; border-color: var(--blue); }
+    .tag-skeleton { padding: 5px 12px; border-radius: 20px; background: var(--bg3); height: 28px; width: 80px; animation: shimmer 1.5s infinite; }
+    @keyframes shimmer { 0%,100%{opacity:.5} 50%{opacity:1} }
 
-    /* Auto-refresh bar */
-    .auto-bar { display: none; align-items: center; gap: 12px; padding: 8px 14px; background: var(--bg2); border-radius: var(--radius); margin-bottom: 1.5rem; font-size: 13px; color: var(--text2); }
-    .auto-bar.visible { display: flex; }
-    .progress-wrap { flex: 1; height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--blue); border-radius: 2px; transition: width 1s linear; }
-    .refresh-now { font-size: 12px; color: var(--blue); cursor: pointer; white-space: nowrap; }
-    .refresh-now:hover { text-decoration: underline; }
+    /* ── MAIN CONTENT ── */
+    main { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
 
-    /* Trust legend */
-    .trust-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--text3); margin-bottom: 1.5rem; }
-    .trust-legend span { display: flex; align-items: center; gap: 5px; }
-    .trust-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    /* ── HOMEPAGE GRID ── */
+    .home-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
+    .home-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 2rem; }
+    .home-card { border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: border-color .15s; }
+    .home-card:hover { border-color: var(--blue); }
+    .home-card-img { width: 100%; height: 140px; object-fit: cover; background: var(--bg3); display: block; }
+    .home-card-img-placeholder { width: 100%; height: 140px; background: var(--bg3); display: flex; align-items: center; justify-content: center; color: var(--text3); font-size: 28px; }
+    .home-card-body { padding: 12px; }
+    .home-card-source { font-size: 11px; color: var(--text3); margin-bottom: 5px; font-weight: 500; }
+    .home-card-title { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .home-card-skeleton { border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+    .home-card-skeleton .sk-img { height: 140px; background: var(--bg3); animation: shimmer 1.5s infinite; }
+    .home-card-skeleton .sk-line { height: 12px; border-radius: 4px; background: var(--bg3); margin: 12px; animation: shimmer 1.5s infinite; }
+    .home-card-skeleton .sk-line2 { width: 70%; height: 12px; border-radius: 4px; background: var(--bg3); margin: 8px 12px; animation: shimmer 1.5s infinite; }
 
-    /* Cards */
-    .card { background: var(--bg); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; }
-    .card-meta { display: flex; gap: 7px; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
-    .badge { font-size: 11px; padding: 3px 8px; border-radius: 5px; font-weight: 500; }
-    .badge-ai { background: #E6F1FB; color: #0C447C; }
-    .badge-live { background: #EAF3DE; color: #3B6D11; }
+    /* ── ARTICLE VIEW ── */
+    .article-wrap { max-width: 760px; margin: 0 auto; }
+    .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text3); cursor: pointer; margin-bottom: 1.5rem; padding: 6px 0; }
+    .back-btn:hover { color: var(--blue); }
+    .article-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    .badge { font-size: 11px; padding: 3px 8px; border-radius: 5px; font-weight: 600; }
+    .badge-ai { background: #dbeafe; color: #1e40af; }
     .badge-angle { background: var(--bg2); color: var(--text2); }
-    .card h2 { font-size: 17px; font-weight: 600; color: var(--text); margin-bottom: 8px; line-height: 1.4; }
-    .card p { font-size: 14px; color: var(--text2); line-height: 1.75; margin-bottom: 12px; }
-    .sources-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 6px; }
-    .source-chip { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text2); background: var(--bg2); padding: 3px 8px; border-radius: 5px; }
-    .toggle-btn { font-size: 12px; color: var(--blue); cursor: pointer; display: inline-block; margin-top: 6px; }
-    .raw-list { margin-top: 10px; border-top: 0.5px solid var(--border); padding-top: 10px; display: none; }
-    .raw-item { margin-bottom: 8px; }
+    .article-title { font-size: 28px; font-weight: 700; line-height: 1.3; margin-bottom: 1rem; letter-spacing: -0.5px; }
+    .article-byline { font-size: 13px; color: var(--text3); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+    .article-byline strong { color: var(--blue); }
+    .article-img { width: 100%; max-height: 420px; object-fit: cover; border-radius: var(--radius); margin-bottom: 1.5rem; display: block; }
+    .article-summary { font-size: 16px; line-height: 1.75; color: var(--text2); border-left: 3px solid var(--blue); padding-left: 1rem; margin-bottom: 1.5rem; font-style: italic; }
+    .article-divider { border: none; border-top: 0.5px solid var(--border); margin: 1.5rem 0; }
+    .article-body { font-size: 17px; line-height: 1.85; color: var(--text); }
+    .article-body p { margin-bottom: 1.25rem; }
+
+    /* ── SOURCES BOX ── */
+    .sources-box { margin-top: 2rem; padding: 1.25rem; border: 0.5px solid var(--border); border-radius: var(--radius); background: var(--bg2); }
+    .sources-box h3 { font-size: 13px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; }
+    .sources-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .source-chip { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); background: var(--bg); padding: 4px 10px; border-radius: 6px; border: 0.5px solid var(--border); }
+    .trust-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .trust-score { font-size: 10px; color: var(--text3); }
+    .raw-list { display: none; margin-top: 10px; }
+    .raw-list.open { display: block; }
+    .raw-item { padding: 6px 0; border-top: 0.5px solid var(--border); }
     .raw-item a { font-size: 13px; color: var(--blue); text-decoration: none; }
     .raw-item a:hover { text-decoration: underline; }
     .raw-meta { font-size: 11px; color: var(--text3); margin-bottom: 2px; }
+    .toggle-sources { font-size: 12px; color: var(--blue); cursor: pointer; }
 
-    /* States */
-    .loading { text-align: center; padding: 3rem; color: var(--text2); font-size: 14px; }
-    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin .8s linear infinite; margin-right: 8px; vertical-align: middle; }
+    /* ── LOADING ── */
+    .loading { text-align: center; padding: 4rem 2rem; color: var(--text2); }
+    .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin .7s linear infinite; margin-bottom: 1rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .step { font-size: 12px; color: var(--text3); margin-top: 6px; }
-    .error { color: #A32D2D; background: #FCEBEB; border: 0.5px solid #F09595; border-radius: var(--radius); padding: .75rem 1rem; font-size: 14px; margin-bottom: 1rem; }
-    .empty { text-align: center; padding: 3rem 0; color: var(--text3); font-size: 14px; line-height: 1.8; }
-    .divider { font-size: 12px; color: var(--text3); margin-bottom: 1rem; }
+    .loading p { font-size: 14px; margin-top: 6px; color: var(--text3); }
+    .error { color: #991b1b; background: #fef2f2; border: 0.5px solid #fca5a5; border-radius: var(--radius); padding: .875rem 1rem; font-size: 14px; }
 
-    /* Footer */
-    footer { border-top: 0.5px solid var(--border); padding: 1.5rem; text-align: center; font-size: 12px; color: var(--text3); max-width: 860px; margin: 2rem auto 0; }
+    /* ── FOOTER ── */
+    footer { border-top: 0.5px solid var(--border); padding: 1.5rem; text-align: center; font-size: 12px; color: var(--text3); max-width: 1100px; margin: 3rem auto 0; }
     footer a { color: var(--blue); text-decoration: none; }
   </style>
 </head>
 <body>
 
 <header>
-  <a class="logo" href="/">Brief<span>AI</span>.world</a>
-  <div class="live"><div class="live-dot"></div><span id="live-status">En vivo</span></div>
+  <a class="logo" href="/" onclick="showHome(); return false;">Brief<span>AI</span>.world</a>
+  <div class="header-right">
+    <div class="live"><div class="live-dot"></div><span>En vivo</span></div>
+    <select class="lang-select" id="lang-select">
+      <option value="es">🇪🇸 Español</option>
+      <option value="en">🌐 English</option>
+      <option value="fr">🇫🇷 Français</option>
+      <option value="de">🇩🇪 Deutsch</option>
+      <option value="it">🇮🇹 Italiano</option>
+      <option value="pt">🇵🇹 Português</option>
+    </select>
+  </div>
 </header>
 
-<main>
-  <div class="search-wrap">
-    <div class="search-row">
-      <input type="text" id="topic-input" placeholder="Busca un tema... ej: Ukraine, AI, Bitcoin, climate" autocomplete="off" />
-      <select id="lang-select">
-        <option value="es">🇪🇸 Español</option>
-        <option value="en">🌐 English</option>
-        <option value="fr">🇫🇷 Français</option>
-        <option value="de">🇩🇪 Deutsch</option>
-        <option value="it">🇮🇹 Italiano</option>
-        <option value="pt">🇵🇹 Português</option>
-      </select>
-      <button onclick="runSearch()">Analizar ↗</button>
-    </div>
-    <div class="tags">
-      <div class="tag" onclick="setTopic('artificial intelligence')">IA</div>
-      <div class="tag" onclick="setTopic('climate change')">Clima</div>
-      <div class="tag" onclick="setTopic('economy inflation')">Economía</div>
-      <div class="tag" onclick="setTopic('Ukraine war')">Ucrania</div>
-      <div class="tag" onclick="setTopic('space exploration')">Espacio</div>
-      <div class="tag" onclick="setTopic('Bitcoin crypto')">Crypto</div>
-      <div class="tag" onclick="setTopic('health medicine')">Salud</div>
-      <div class="tag" onclick="setTopic('elections politics')">Política</div>
-    </div>
+<div class="search-section">
+  <div class="search-row">
+    <input type="text" id="topic-input" placeholder="Busca cualquier tema... ej: Trump tariffs, AI regulation, Ukraine" autocomplete="off" />
+    <button onclick="searchTopic()">Generar artículo ↗</button>
   </div>
+</div>
 
-  <div class="auto-bar" id="auto-bar">
-    <span>Actualización automática — siguiente en <strong id="countdown">60:00</strong></span>
-    <div class="progress-wrap"><div class="progress-fill" id="progress-fill" style="width:100%"></div></div>
-    <span class="refresh-now" onclick="runSearch()">Actualizar ahora</span>
+<div class="trending-section">
+  <div class="trending-label">Tendencias ahora</div>
+  <div class="tags" id="tags-container">
+    <div class="tag-skeleton"></div>
+    <div class="tag-skeleton" style="width:100px"></div>
+    <div class="tag-skeleton" style="width:70px"></div>
+    <div class="tag-skeleton" style="width:90px"></div>
+    <div class="tag-skeleton" style="width:110px"></div>
+    <div class="tag-skeleton" style="width:75px"></div>
+    <div class="tag-skeleton" style="width:95px"></div>
+    <div class="tag-skeleton" style="width:85px"></div>
   </div>
+</div>
 
-  <div class="trust-legend">
-    <span><div class="trust-dot" style="background:#3B6D11"></div>Fuente muy fiable</span>
-    <span><div class="trust-dot" style="background:#378ADD"></div>Fuente fiable</span>
-    <span><div class="trust-dot" style="background:#BA7517"></div>Verificar</span>
-    <span><div class="trust-dot" style="background:#888780"></div>Desconocida</span>
-  </div>
-
-  <div id="results">
-    <div class="empty">
-      Escribe un tema arriba y pulsa <strong>Analizar</strong><br>
-      BriefAI buscará artículos reales y los sintetizará sin sesgos
-    </div>
+<main id="main-content">
+  <div class="home-label">Lo más leído ahora en EE.UU.</div>
+  <div class="home-grid" id="home-grid">
+    <div class="home-card-skeleton"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line2"></div></div>
+    <div class="home-card-skeleton"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line2"></div></div>
+    <div class="home-card-skeleton"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line2"></div></div>
+    <div class="home-card-skeleton"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line2"></div></div>
   </div>
 </main>
 
 <footer>
-  <strong>BriefAI.world</strong> — Periodismo neutral impulsado por IA · 
-  Fuentes: <a href="https://newsapi.org" target="_blank">NewsAPI</a> · 
-  Síntesis: <a href="https://anthropic.com" target="_blank">Claude by Anthropic</a>
+  <strong>BriefAI.world</strong> — Periodismo neutral generado por IA ·
+  Fuentes: <a href="https://newsapi.org" target="_blank">NewsAPI</a> ·
+  Motor: <a href="https://anthropic.com" target="_blank">Claude by Anthropic</a>
 </footer>
 
 <script>
-  const TRUST_DB = {
-    'Reuters':{score:98,color:'#3B6D11'},
-    'Associated Press':{score:97,color:'#3B6D11'},
-    'AP News':{score:97,color:'#3B6D11'},
-    'BBC News':{score:96,color:'#3B6D11'},
-    'The New York Times':{score:95,color:'#3B6D11'},
-    'The Guardian':{score:94,color:'#3B6D11'},
-    'Financial Times':{score:94,color:'#3B6D11'},
-    'Bloomberg':{score:93,color:'#3B6D11'},
-    'The Economist':{score:93,color:'#3B6D11'},
-    'NPR':{score:92,color:'#3B6D11'},
-    'The Washington Post':{score:90,color:'#3B6D11'},
-    'Le Monde':{score:91,color:'#3B6D11'},
-    'Der Spiegel':{score:90,color:'#3B6D11'},
-    'Al Jazeera English':{score:88,color:'#378ADD'},
-    'CNN':{score:87,color:'#378ADD'},
-    'El País':{score:89,color:'#378ADD'},
-    'France 24':{score:88,color:'#378ADD'},
-    'Deutsche Welle':{score:89,color:'#378ADD'},
-    'Euronews':{score:85,color:'#378ADD'},
-    'Forbes':{score:82,color:'#378ADD'},
-    'Business Insider':{score:78,color:'#BA7517'},
-    'Vice':{score:72,color:'#BA7517'},
-  };
+  const TRUST_COLORS = { high: '#16a34a', mid: '#2563eb', low: '#d97706', unknown: '#9ca3af' };
 
-  function getTrust(name) {
-    if (!name) return {score:60,color:'#888780'};
-    if (TRUST_DB[name]) return TRUST_DB[name];
-    const lower = name.toLowerCase();
-    for (const [k,v] of Object.entries(TRUST_DB)) {
-      if (k.toLowerCase().includes(lower) || lower.includes(k.toLowerCase())) return v;
-    }
-    return {score:60,color:'#888780'};
+  function trustColor(score) {
+    if (score >= 90) return TRUST_COLORS.high;
+    if (score >= 80) return TRUST_COLORS.mid;
+    if (score >= 70) return TRUST_COLORS.low;
+    return TRUST_COLORS.unknown;
   }
 
-  let autoTimer = null;
-  let countdown = 3600;
-  let currentTopic = '';
+  function getLang() { return document.getElementById('lang-select').value; }
 
+  // ── LOAD TRENDING ON START ───────────────────────────────────────────────
+  async function loadTrending() {
+    try {
+      const res = await fetch('/api/news', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'trending' }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+
+      // Render trending tags
+      const tagsEl = document.getElementById('tags-container');
+      tagsEl.innerHTML = (data.topics || []).map(t =>
+        `<div class="tag" onclick="setTopic('${t.replace(/'/g, "\\'")}')">${t}</div>`
+      ).join('');
+
+      // Render top 4 homepage cards
+      const grid = document.getElementById('home-grid');
+      grid.innerHTML = (data.top4 || []).map(a => `
+        <div class="home-card" onclick="setTopic('${a.title.replace(/'/g, "\\'").slice(0, 60)}')">
+          ${a.image
+            ? `<img class="home-card-img" src="${a.image}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+               <div class="home-card-img-placeholder" style="display:none">📰</div>`
+            : `<div class="home-card-img-placeholder">📰</div>`}
+          <div class="home-card-body">
+            <div class="home-card-source">${a.source}</div>
+            <div class="home-card-title">${a.title}</div>
+          </div>
+        </div>`).join('');
+
+    } catch (e) {
+      document.getElementById('tags-container').innerHTML =
+        ['Trump tariffs','Ukraine war','AI regulation','Federal Reserve','Gaza ceasefire','Tech earnings','Climate policy','Election 2026']
+        .map(t => `<div class="tag" onclick="setTopic('${t}')">${t}</div>`).join('');
+    }
+  }
+
+  // Refresh trending every 30 minutes
+  loadTrending();
+  setInterval(loadTrending, 30 * 60 * 1000);
+
+  // ── SEARCH ───────────────────────────────────────────────────────────────
   function setTopic(t) {
     document.getElementById('topic-input').value = t;
-    runSearch();
+    searchTopic();
   }
 
-  function startAutoRefresh() {
-    document.getElementById('auto-bar').classList.add('visible');
-    countdown = 3600;
-    if (autoTimer) clearInterval(autoTimer);
-    autoTimer = setInterval(() => {
-      countdown--;
-      const m = Math.floor(countdown/60).toString().padStart(2,'0');
-      const s = (countdown%60).toString().padStart(2,'0');
-      document.getElementById('countdown').textContent = m+':'+s;
-      document.getElementById('progress-fill').style.width = Math.round((countdown/3600)*100)+'%';
-      if (countdown <= 0) runSearch();
-    }, 1000);
+  function showHome() {
+    document.getElementById('topic-input').value = '';
+    document.getElementById('main-content').innerHTML = `
+      <div class="home-label">Lo más leído ahora en EE.UU.</div>
+      <div class="home-grid" id="home-grid"></div>`;
+    loadTrending();
   }
 
-  function showLoading(msg, step) {
-    document.getElementById('results').innerHTML =
-      `<div class="loading"><span class="spinner"></span>${msg}${step ? `<div class="step">${step}</div>` : ''}</div>`;
-  }
-
-  async function runSearch() {
+  async function searchTopic() {
     const topic = document.getElementById('topic-input').value.trim();
-    const lang = document.getElementById('lang-select').value;
     if (!topic) return;
-    currentTopic = topic;
+    const lang = getLang();
 
-    showLoading('Buscando artículos en medios internacionales...', 'Paso 1/2 — NewsAPI');
+    document.getElementById('main-content').innerHTML = `
+      <div class="loading">
+        <div class="spinner"></div>
+        <div>Buscando fuentes internacionales...</div>
+        <p>Generando artículo completo con IA · puede tardar 20-30 segundos</p>
+      </div>`;
 
     try {
       const res = await fetch('/api/news', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, lang }),
+        body: JSON.stringify({ action: 'article', topic, lang }),
       });
-
       const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Error del servidor');
+      if (!data.article) throw new Error('No se recibió artículo');
 
-      if (!res.ok) {
-        throw new Error(data.error || 'Error del servidor (' + res.status + ')');
-      }
-
-      if (!data.synthesized || !Array.isArray(data.synthesized) || data.synthesized.length === 0) {
-        throw new Error('No se pudo sintetizar. Respuesta: ' + JSON.stringify(data).slice(0, 300));
-      }
-
-      if (!data.articles || !Array.isArray(data.articles)) {
-        throw new Error('No se recibieron artículos');
-      }
-
-      renderResults(data.synthesized, data.articles, topic);
-      startAutoRefresh();
-
+      renderArticle(data, topic);
     } catch (e) {
-      document.getElementById('results').innerHTML =
+      document.getElementById('main-content').innerHTML =
         `<div class="error">Error: ${e.message}</div>`;
     }
   }
 
-  function renderResults(synthesized, articles, topic) {
-    const now = new Date().toLocaleTimeString('es-ES', {hour:'2-digit', minute:'2-digit'});
-    let html = `<div class="divider">Síntesis: <strong>${topic}</strong> · ${articles.length} artículos analizados · Actualizado ${now}</div>`;
+  // ── RENDER ARTICLE ───────────────────────────────────────────────────────
+  function renderArticle(data, topic) {
+    const { article, image, sources, rawArticles } = data;
+    const now = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
 
-    synthesized.forEach((s, idx) => {
-      const used = (s.articulos_usados||[]).map(i => articles[i-1]).filter(Boolean);
-      const chips = (s.fuentes||[]).map(name => {
-        const t = getTrust(name);
-        return `<span class="source-chip"><div class="trust-dot" style="background:${t.color}"></div>${name} <span style="font-size:10px;color:var(--text3)">${t.score}</span></span>`;
-      }).join('');
+    const paragraphs = (article.articulo || '').split('\n').filter(p => p.trim())
+      .map(p => `<p>${p.trim()}</p>`).join('');
 
-      html += `
-      <div class="card">
-        <div class="card-meta">
-          <span class="badge badge-ai">Síntesis IA</span>
-          <span class="badge badge-live">Noticias reales</span>
-          <span class="badge badge-angle">${s.angulo || ''}</span>
+    const sourceChips = (sources || []).map(s => `
+      <span class="source-chip">
+        <div class="trust-dot" style="background:${trustColor(s.score)}"></div>
+        ${s.name}
+        <span class="trust-score">${s.score}</span>
+      </span>`).join('');
+
+    const rawItems = (rawArticles || []).map(a => `
+      <div class="raw-item">
+        <div class="raw-meta">${a.source} · ${new Date(a.publishedAt).toLocaleDateString('es-ES')}</div>
+        <a href="${a.url}" target="_blank" rel="noopener">${a.title}</a>
+      </div>`).join('');
+
+    document.getElementById('main-content').innerHTML = `
+      <div class="article-wrap">
+        <div class="back-btn" onclick="showHome()">← Volver al inicio</div>
+        <div class="article-meta">
+          <span class="badge badge-ai">BriefAI</span>
+          <span class="badge badge-angle">${article.angulo || ''}</span>
         </div>
-        <h2>${s.titulo}</h2>
-        <p>${s.resumen}</p>
-        <div class="sources-row">${chips}</div>
-        ${used.length > 0 ? `
-        <span class="toggle-btn" onclick="toggleRaw(${idx})">Ver artículos originales (${used.length}) ▾</span>
-        <div class="raw-list" id="raw-${idx}">
-          ${used.map(a => `
-            <div class="raw-item">
-              <div class="raw-meta">${a.source.name} · ${new Date(a.publishedAt).toLocaleDateString('es-ES')}</div>
-              <a href="${a.url}" target="_blank" rel="noopener">${a.title}</a>
-            </div>`).join('')}
-        </div>` : ''}
+        <h1 class="article-title">${article.titulo}</h1>
+        <div class="article-byline">
+          Escrito por <strong>BriefAI</strong> · ${now} · Síntesis de ${(sources||[]).length} fuentes internacionales
+        </div>
+        ${image ? `<img class="article-img" src="${image}" alt="${article.titulo}" onerror="this.style.display='none'">` : ''}
+        <div class="article-summary">${article.resumen}</div>
+        <hr class="article-divider">
+        <div class="article-body">${paragraphs}</div>
+        <div class="sources-box">
+          <h3>Fuentes utilizadas</h3>
+          <div class="sources-list">${sourceChips}</div>
+          <span class="toggle-sources" onclick="document.getElementById('raw-list').classList.toggle('open'); this.textContent = this.textContent.includes('Ver') ? 'Ocultar artículos originales ▴' : 'Ver artículos originales ▾'">Ver artículos originales ▾</span>
+          <div class="raw-list" id="raw-list">${rawItems}</div>
+        </div>
       </div>`;
-    });
-
-    document.getElementById('results').innerHTML = html;
-  }
-
-  function toggleRaw(idx) {
-    const el = document.getElementById('raw-'+idx);
-    const btn = el.previousElementSibling;
-    const open = el.style.display === 'block';
-    el.style.display = open ? 'none' : 'block';
-    btn.textContent = btn.textContent.replace(open ? '▴' : '▾', open ? '▾' : '▴');
   }
 
   document.getElementById('topic-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') runSearch();
+    if (e.key === 'Enter') searchTopic();
   });
 </script>
 </body>
