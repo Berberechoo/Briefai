@@ -1,127 +1,120 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>BriefAI — Periodismo neutral impulsado por IA</title>
-  <meta name="description" content="BriefAI genera artículos completos y neutrales sintetizando fuentes internacionales con inteligencia artificial." />
+  <meta name="description" content="BriefAI genera artículos completos y neutrales sintetizando fuentes internacionales con IA."/>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #ffffff; --bg2: #f7f7f5; --bg3: #efefec;
-      --border: rgba(0,0,0,0.1); --border2: rgba(0,0,0,0.18);
-      --text: #1a1a1a; --text2: #555550; --text3: #99998f;
-      --blue: #2563eb; --blue-dark: #1d4ed8;
-      --green: #16a34a; --amber: #d97706; --red: #dc2626;
-      --radius: 12px;
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{
+      --bg:#fff;--bg2:#f7f7f5;--bg3:#efefec;
+      --border:rgba(0,0,0,0.09);--border2:rgba(0,0,0,0.16);
+      --text:#1a1a1a;--text2:#555550;--text3:#99998f;
+      --blue:#2563eb;--blue-dark:#1d4ed8;
+      --green:#16a34a;--radius:12px;
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #141414; --bg2: #1e1e1e; --bg3: #282828;
-        --border: rgba(255,255,255,0.1); --border2: rgba(255,255,255,0.18);
-        --text: #f0f0ee; --text2: #a0a09a; --text3: #66665e;
-      }
+    @media(prefers-color-scheme:dark){
+      :root{--bg:#141414;--bg2:#1e1e1e;--bg3:#282828;
+        --border:rgba(255,255,255,0.09);--border2:rgba(255,255,255,0.16);
+        --text:#f0f0ee;--text2:#a0a09a;--text3:#66665e;}
     }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-    /* ── HEADER ── */
-    header { border-bottom: 0.5px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 56px; max-width: 1100px; margin: 0 auto; }
-    .logo { font-size: 20px; font-weight: 700; color: var(--text); text-decoration: none; letter-spacing: -0.5px; }
-    .logo span { color: var(--blue); }
-    .header-right { display: flex; align-items: center; gap: 14px; }
-    .live { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text3); }
-    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
-    .lang-select { height: 32px; padding: 0 10px; border: 0.5px solid var(--border); border-radius: 8px; font-size: 13px; background: var(--bg); color: var(--text); cursor: pointer; }
+    header{border-bottom:0.5px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:54px;max-width:1200px;margin:0 auto;}
+    .logo{font-size:20px;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-0.5px;cursor:pointer;}
+    .logo span{color:var(--blue);}
+    .header-right{display:flex;align-items:center;gap:12px;}
+    .live{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text3);}
+    .live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+    select.lang{height:32px;padding:0 10px;border:0.5px solid var(--border2);border-radius:8px;font-size:13px;background:var(--bg);color:var(--text);cursor:pointer;}
 
-    /* ── SEARCH ── */
-    .search-section { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.5rem 0; }
-    .search-row { display: flex; gap: 8px; }
-    .search-row input { flex: 1; height: 44px; padding: 0 16px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 15px; background: var(--bg); color: var(--text); outline: none; transition: border-color .2s; }
-    .search-row input:focus { border-color: var(--blue); }
-    .search-row button { height: 44px; padding: 0 22px; background: var(--blue); color: white; border: none; border-radius: var(--radius); font-size: 15px; cursor: pointer; font-weight: 500; transition: background .15s; white-space: nowrap; }
-    .search-row button:hover { background: var(--blue-dark); }
+    .search-wrap{max-width:1200px;margin:0 auto;padding:1.25rem 1.5rem 0;}
+    .search-row{display:flex;gap:8px;}
+    .search-row input{flex:1;height:44px;padding:0 16px;border:0.5px solid var(--border2);border-radius:var(--radius);font-size:15px;background:var(--bg);color:var(--text);outline:none;transition:border-color .2s;}
+    .search-row input:focus{border-color:var(--blue);}
+    .search-row button{height:44px;padding:0 22px;background:var(--blue);color:white;border:none;border-radius:var(--radius);font-size:15px;cursor:pointer;font-weight:500;transition:background .15s;white-space:nowrap;}
+    .search-row button:hover{background:var(--blue-dark);}
 
-    /* ── TRENDING TAGS ── */
-    .trending-section { max-width: 1100px; margin: 0 auto; padding: 1rem 1.5rem; }
-    .trending-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-    .tags { display: flex; gap: 7px; flex-wrap: wrap; }
-    .tag { padding: 5px 12px; border: 0.5px solid var(--border); border-radius: 20px; font-size: 13px; cursor: pointer; color: var(--text2); background: var(--bg); transition: all .15s; white-space: nowrap; }
-    .tag:hover { background: var(--blue); color: white; border-color: var(--blue); }
-    .tag-skeleton { padding: 5px 12px; border-radius: 20px; background: var(--bg3); height: 28px; width: 80px; animation: shimmer 1.5s infinite; }
-    @keyframes shimmer { 0%,100%{opacity:.5} 50%{opacity:1} }
+    .sections-nav{max-width:1200px;margin:0 auto;padding:1rem 1.5rem 0;display:flex;gap:6px;flex-wrap:wrap;}
+    .nav-pill{padding:5px 13px;border:0.5px solid var(--border);border-radius:20px;font-size:13px;cursor:pointer;color:var(--text2);background:var(--bg);transition:all .15s;white-space:nowrap;}
+    .nav-pill:hover,.nav-pill.active{background:var(--blue);color:white;border-color:var(--blue);}
 
-    /* ── MAIN CONTENT ── */
-    main { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+    main{max-width:1200px;margin:0 auto;padding:1.5rem;}
 
-    /* ── HOMEPAGE GRID ── */
-    .home-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 12px; }
-    .home-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-bottom: 2rem; }
-    .home-card { border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: border-color .15s; }
-    .home-card:hover { border-color: var(--blue); }
-    .home-card-img { width: 100%; height: 140px; object-fit: cover; background: var(--bg3); display: block; }
-    .home-card-img-placeholder { width: 100%; height: 140px; background: var(--bg3); display: flex; align-items: center; justify-content: center; color: var(--text3); font-size: 28px; }
-    .home-card-body { padding: 12px; }
-    .home-card-source { font-size: 11px; color: var(--text3); margin-bottom: 5px; font-weight: 500; }
-    .home-card-title { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-    .home-card-skeleton { border: 0.5px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-    .home-card-skeleton .sk-img { height: 140px; background: var(--bg3); animation: shimmer 1.5s infinite; }
-    .home-card-skeleton .sk-line { height: 12px; border-radius: 4px; background: var(--bg3); margin: 12px; animation: shimmer 1.5s infinite; }
-    .home-card-skeleton .sk-line2 { width: 70%; height: 12px; border-radius: 4px; background: var(--bg3); margin: 8px 12px; animation: shimmer 1.5s infinite; }
+    .section-block{margin-bottom:2.5rem;}
+    .section-header{display:flex;align-items:baseline;gap:10px;margin-bottom:1rem;padding-bottom:8px;border-bottom:0.5px solid var(--border);}
+    .section-icon{font-size:18px;}
+    .section-title{font-size:16px;font-weight:700;color:var(--text);letter-spacing:-0.3px;}
+    .section-subtitle{font-size:12px;color:var(--text3);}
 
-    /* ── ARTICLE VIEW ── */
-    .article-wrap { max-width: 760px; margin: 0 auto; }
-    .back-btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text3); cursor: pointer; margin-bottom: 1.5rem; padding: 6px 0; }
-    .back-btn:hover { color: var(--blue); }
-    .article-meta { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
-    .badge { font-size: 11px; padding: 3px 8px; border-radius: 5px; font-weight: 600; }
-    .badge-ai { background: #dbeafe; color: #1e40af; }
-    .badge-angle { background: var(--bg2); color: var(--text2); }
-    .article-title { font-size: 28px; font-weight: 700; line-height: 1.3; margin-bottom: 1rem; letter-spacing: -0.5px; }
-    .article-byline { font-size: 13px; color: var(--text3); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
-    .article-byline strong { color: var(--blue); }
-    .article-img { width: 100%; max-height: 420px; object-fit: cover; border-radius: var(--radius); margin-bottom: 1.5rem; display: block; }
-    .article-summary { font-size: 16px; line-height: 1.75; color: var(--text2); border-left: 3px solid var(--blue); padding-left: 1rem; margin-bottom: 1.5rem; font-style: italic; }
-    .article-divider { border: none; border-top: 0.5px solid var(--border); margin: 1.5rem 0; }
-    .article-body { font-size: 17px; line-height: 1.85; color: var(--text); }
-    .article-body p { margin-bottom: 1.25rem; }
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+    .card{border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:border-color .15s,transform .15s;}
+    .card:hover{border-color:var(--blue);transform:translateY(-2px);}
+    .card-img{width:100%;height:130px;object-fit:cover;background:var(--bg3);display:block;}
+    .card-no-img{width:100%;height:130px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:32px;}
+    .card-body{padding:10px 12px 12px;}
+    .card-label{font-size:11px;color:var(--blue);font-weight:600;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px;}
+    .card-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.4;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 
-    /* ── SOURCES BOX ── */
-    .sources-box { margin-top: 2rem; padding: 1.25rem; border: 0.5px solid var(--border); border-radius: var(--radius); background: var(--bg2); }
-    .sources-box h3 { font-size: 13px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; }
-    .sources-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-    .source-chip { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); background: var(--bg); padding: 4px 10px; border-radius: 6px; border: 0.5px solid var(--border); }
-    .trust-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-    .trust-score { font-size: 10px; color: var(--text3); }
-    .raw-list { display: none; margin-top: 10px; }
-    .raw-list.open { display: block; }
-    .raw-item { padding: 6px 0; border-top: 0.5px solid var(--border); }
-    .raw-item a { font-size: 13px; color: var(--blue); text-decoration: none; }
-    .raw-item a:hover { text-decoration: underline; }
-    .raw-meta { font-size: 11px; color: var(--text3); margin-bottom: 2px; }
-    .toggle-sources { font-size: 12px; color: var(--blue); cursor: pointer; }
+    .sk{background:var(--bg3);border-radius:6px;animation:shimmer 1.5s infinite;}
+    @keyframes shimmer{0%,100%{opacity:.5}50%{opacity:1}}
+    .sk-card{border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+    .sk-img{height:130px;}
+    .sk-line{height:11px;margin:12px 12px 6px;}
+    .sk-line2{height:11px;margin:0 12px 12px;width:70%;}
 
-    /* ── LOADING ── */
-    .loading { text-align: center; padding: 4rem 2rem; color: var(--text2); }
-    .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin .7s linear infinite; margin-bottom: 1rem; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading p { font-size: 14px; margin-top: 6px; color: var(--text3); }
-    .loading-progress { width: 240px; height: 3px; background: var(--bg3); border-radius: 2px; margin: 14px auto 0; overflow: hidden; }
-    .loading-bar { height: 100%; width: 0%; background: var(--blue); border-radius: 2px; transition: width 3s ease; }
-    .error { color: #991b1b; background: #fef2f2; border: 0.5px solid #fca5a5; border-radius: var(--radius); padding: .875rem 1rem; font-size: 14px; }
+    .article-wrap{max-width:760px;margin:0 auto;}
+    .back-btn{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--text3);cursor:pointer;margin-bottom:1.5rem;padding:6px 0;}
+    .back-btn:hover{color:var(--blue);}
+    .a-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:1rem;}
+    .badge{font-size:11px;padding:3px 9px;border-radius:5px;font-weight:600;}
+    .badge-ai{background:#dbeafe;color:#1e40af;}
+    .badge-angle{background:var(--bg2);color:var(--text2);}
+    .a-title{font-size:28px;font-weight:700;line-height:1.3;margin-bottom:1rem;letter-spacing:-0.5px;}
+    .a-byline{font-size:13px;color:var(--text3);margin-bottom:1.5rem;}
+    .a-byline strong{color:var(--blue);}
+    .a-img{width:100%;max-height:420px;object-fit:cover;border-radius:var(--radius);margin-bottom:1.5rem;display:block;}
+    .a-summary{font-size:16px;line-height:1.75;color:var(--text2);border-left:3px solid var(--blue);padding-left:1rem;margin-bottom:1.5rem;font-style:italic;}
+    .a-divider{border:none;border-top:0.5px solid var(--border);margin:1.5rem 0;}
+    .a-body{font-size:17px;line-height:1.9;color:var(--text);}
+    .a-body p{margin-bottom:1.25rem;}
 
-    /* ── FOOTER ── */
-    footer { border-top: 0.5px solid var(--border); padding: 1.5rem; text-align: center; font-size: 12px; color: var(--text3); max-width: 1100px; margin: 3rem auto 0; }
-    footer a { color: var(--blue); text-decoration: none; }
+    .sources-box{margin-top:2rem;padding:1.25rem;border:0.5px solid var(--border);border-radius:var(--radius);background:var(--bg2);}
+    .sources-box h3{font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:12px;}
+    .sources-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}
+    .chip{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2);background:var(--bg);padding:4px 10px;border-radius:6px;border:0.5px solid var(--border);}
+    .tdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+    .tscore{font-size:10px;color:var(--text3);}
+    .raw-list{display:none;margin-top:10px;}
+    .raw-list.open{display:block;}
+    .raw-item{padding:7px 0;border-top:0.5px solid var(--border);}
+    .raw-item a{font-size:13px;color:var(--blue);text-decoration:none;}
+    .raw-item a:hover{text-decoration:underline;}
+    .raw-meta{font-size:11px;color:var(--text3);margin-bottom:2px;}
+    .toggle-src{font-size:12px;color:var(--blue);cursor:pointer;}
+
+    .loading{text-align:center;padding:4rem 2rem;color:var(--text2);}
+    .spinner{display:inline-block;width:20px;height:20px;border:2px solid var(--border2);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:1rem;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-step{font-size:15px;font-weight:500;color:var(--text);margin-bottom:6px;}
+    .loading p{font-size:13px;color:var(--text3);}
+    .loading-bar-wrap{width:260px;height:3px;background:var(--bg3);border-radius:2px;margin:14px auto 0;overflow:hidden;}
+    .loading-bar{height:100%;width:0%;background:var(--blue);border-radius:2px;transition:width 3s ease;}
+    .error{color:#991b1b;background:#fef2f2;border:0.5px solid #fca5a5;border-radius:var(--radius);padding:.875rem 1rem;font-size:14px;}
+
+    footer{border-top:0.5px solid var(--border);padding:1.5rem;text-align:center;font-size:12px;color:var(--text3);max-width:1200px;margin:2rem auto 0;}
+    footer a{color:var(--blue);text-decoration:none;}
   </style>
 </head>
 <body>
 
 <header>
-  <a class="logo" href="/" onclick="showHome(); return false;">Brief<span>AI</span>.world</a>
+  <div class="logo" onclick="showHome()">Brief<span>AI</span>.world</div>
   <div class="header-right">
     <div class="live"><div class="live-dot"></div><span>En vivo</span></div>
-    <select class="lang-select" id="lang-select">
+    <select class="lang" id="lang-select">
       <option value="es">🇪🇸 Español</option>
       <option value="en">🌐 English</option>
       <option value="fr">🇫🇷 Français</option>
@@ -132,36 +125,16 @@
   </div>
 </header>
 
-<div class="search-section">
+<div class="search-wrap">
   <div class="search-row">
-    <input type="text" id="topic-input" placeholder="Busca cualquier tema... ej: Trump tariffs, AI regulation, Ukraine" autocomplete="off" />
+    <input type="text" id="topic-input" placeholder="Busca cualquier tema... ej: Trump tariffs, Champions League, AI regulation"/>
     <button onclick="searchTopic()">Generar artículo ↗</button>
   </div>
 </div>
 
-<div class="trending-section">
-  <div class="trending-label">Tendencias ahora</div>
-  <div class="tags" id="tags-container">
-    <div class="tag-skeleton"></div>
-    <div class="tag-skeleton" style="width:100px"></div>
-    <div class="tag-skeleton" style="width:70px"></div>
-    <div class="tag-skeleton" style="width:90px"></div>
-    <div class="tag-skeleton" style="width:110px"></div>
-    <div class="tag-skeleton" style="width:75px"></div>
-    <div class="tag-skeleton" style="width:95px"></div>
-    <div class="tag-skeleton" style="width:85px"></div>
-  </div>
-</div>
+<div class="sections-nav" id="sections-nav"></div>
 
-<main id="main-content">
-  <div class="home-label">Lo más leído ahora en EE.UU.</div>
-  <div class="home-grid" id="home-grid">
-    <div class="home-card-skeleton"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line2"></div></div>
-    <div class="home-card-skeleton"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line2"></div></div>
-    <div class="home-card-skeleton"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line2"></div></div>
-    <div class="home-card-skeleton"><div class="sk-img"></div><div class="sk-line"></div><div class="sk-line2"></div></div>
-  </div>
-</main>
+<main id="main"></main>
 
 <footer>
   <strong>BriefAI.world</strong> — Periodismo neutral generado por IA ·
@@ -170,174 +143,223 @@
 </footer>
 
 <script>
-  const TRUST_COLORS = { high: '#16a34a', mid: '#2563eb', low: '#d97706', unknown: '#9ca3af' };
+const SECTIONS = [
+  { key:'usa',      icon:'🇺🇸', label:'EE.UU.' },
+  { key:'world',    icon:'🌍', label:'Mundo' },
+  { key:'sports',   icon:'⚽', label:'Deportes' },
+  { key:'motor',    icon:'🏎️', label:'Motor' },
+  { key:'economy',  icon:'💰', label:'Economía' },
+  { key:'tech',     icon:'🤖', label:'Tecnología' },
+  { key:'climate',  icon:'🌱', label:'Clima' },
+  { key:'art',      icon:'🎨', label:'Arte y cultura' },
+  { key:'music',    icon:'🎵', label:'Música' },
+  { key:'celebrity',icon:'💄', label:'Corazón' },
+  { key:'science',  icon:'🔬', label:'Ciencia' },
+  { key:'politics', icon:'⚖️', label:'Política' },
+];
 
-  function trustColor(score) {
-    if (score >= 90) return TRUST_COLORS.high;
-    if (score >= 80) return TRUST_COLORS.mid;
-    if (score >= 70) return TRUST_COLORS.low;
-    return TRUST_COLORS.unknown;
-  }
+const sectionData = {};
+let observers = [];
 
-  function getLang() { return document.getElementById('lang-select').value; }
+function getLang(){ return document.getElementById('lang-select').value; }
 
-  // ── LOAD TRENDING ON START ───────────────────────────────────────────────
-  async function loadTrending() {
-    try {
-      const res = await fetch('/api/news', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'trending' }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error);
+function trustColor(s){ return s>=90?'#16a34a':s>=80?'#2563eb':s>=70?'#d97706':'#9ca3af'; }
 
-      // Render trending tags
-      const tagsEl = document.getElementById('tags-container');
-      tagsEl.innerHTML = (data.topics || []).map(t =>
-        `<div class="tag" onclick="setTopic('${t.replace(/'/g, "\\'")}')">${t}</div>`
-      ).join('');
+// ── BUILD HOME ────────────────────────────────────────────────────────────
+function showHome(){
+  document.getElementById('topic-input').value='';
+  buildNav();
+  buildSections();
+}
 
-      // Render top 4 homepage cards (topic-based, AI will generate articles)
-      const grid = document.getElementById('home-grid');
-      grid.innerHTML = (data.top4 || []).map(a => `
-        <div class="home-card" onclick="setTopic('${a.topic.replace(/'/g, "\\'")}')">
-          ${a.image
-            ? `<img class="home-card-img" src="${a.image}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-               <div class="home-card-img-placeholder" style="display:none">📰</div>`
-            : `<div class="home-card-img-placeholder">📰</div>`}
-          <div class="home-card-body">
-            <div class="home-card-source">BriefAI · Tendencia ahora</div>
-            <div class="home-card-title">${a.topic}</div>
-          </div>
-        </div>`).join('');
+function buildNav(){
+  document.getElementById('sections-nav').innerHTML = SECTIONS.map(s=>
+    `<div class="nav-pill" id="nav-${s.key}" onclick="scrollToSection('${s.key}')">${s.icon} ${s.label}</div>`
+  ).join('');
+}
 
-    } catch (e) {
-      document.getElementById('tags-container').innerHTML =
-        ['Trump tariffs','Ukraine war','AI regulation','Federal Reserve','Gaza ceasefire','Tech earnings','Climate policy','Election 2026']
-        .map(t => `<div class="tag" onclick="setTopic('${t}')">${t}</div>`).join('');
-    }
-  }
+function scrollToSection(key){
+  const el = document.getElementById('section-'+key);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
 
-  // Refresh trending every 30 minutes
-  loadTrending();
-  setInterval(loadTrending, 30 * 60 * 1000);
+function buildSections(){
+  observers.forEach(o=>o.disconnect());
+  observers=[];
+  const main = document.getElementById('main');
+  main.innerHTML = SECTIONS.map(s=>`
+    <div class="section-block" id="section-${s.key}">
+      <div class="section-header">
+        <span class="section-icon">${s.icon}</span>
+        <span class="section-title">${s.label}</span>
+        <span class="section-subtitle" id="subtitle-${s.key}">Cargando...</span>
+      </div>
+      <div class="cards-grid" id="grid-${s.key}">
+        ${[0,1,2,3].map(()=>`
+          <div class="sk-card">
+            <div class="sk sk-img"></div>
+            <div class="sk sk-line"></div>
+            <div class="sk sk-line2"></div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
 
-  // ── SEARCH ───────────────────────────────────────────────────────────────
-  function setTopic(t) {
-    document.getElementById('topic-input').value = t;
-    searchTopic();
-  }
-
-  function showHome() {
-    document.getElementById('topic-input').value = '';
-    document.getElementById('main-content').innerHTML = `
-      <div class="home-label">Lo más leído ahora en EE.UU.</div>
-      <div class="home-grid" id="home-grid"></div>`;
-    loadTrending();
-  }
-
-  async function searchTopic() {
-    const topic = document.getElementById('topic-input').value.trim();
-    if (!topic) return;
-    const lang = getLang();
-
-    // Show animated loading with step messages
-    const steps = [
-      'Escaneando titulares internacionales...',
-      'Consultando Reuters, BBC, NYT...',
-      'Analizando perspectivas globales...',
-      'Contrastando fuentes...',
-      'Redactando artículo completo...',
-      'Revisando neutralidad y precisión...',
-      'Casi listo...',
-    ];
-    let stepIdx = 0;
-    document.getElementById('main-content').innerHTML = `
-      <div class="loading">
-        <div class="spinner"></div>
-        <div id="loading-step">${steps[0]}</div>
-        <div class="loading-progress"><div class="loading-bar" id="loading-bar"></div></div>
-        <p>BriefAI genera artículos de 2000+ palabras · 20-30 segundos</p>
-      </div>`;
-
-    const stepInterval = setInterval(() => {
-      stepIdx = Math.min(stepIdx + 1, steps.length - 1);
-      const el = document.getElementById('loading-step');
-      const bar = document.getElementById('loading-bar');
-      if (el) el.textContent = steps[stepIdx];
-      if (bar) bar.style.width = Math.round((stepIdx / (steps.length - 1)) * 90) + '%';
-    }, 3500);
-
-    try {
-      const res = await fetch('/api/news', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'article', topic, lang }),
-      });
-      clearInterval(stepInterval);
-      const bar = document.getElementById('loading-bar');
-      if (bar) bar.style.width = '100%';
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Error del servidor');
-      if (!data.article) throw new Error('No se recibió artículo');
-
-      renderArticle(data, topic);
-    } catch (e) {
-      clearInterval(stepInterval);
-      document.getElementById('main-content').innerHTML =
-        `<div class="error">Error: ${e.message}</div>`;
-    }
-  }
-
-  // ── RENDER ARTICLE ───────────────────────────────────────────────────────
-  function renderArticle(data, topic) {
-    const { article, image, sources, rawArticles } = data;
-    const now = new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
-
-    const paragraphs = (article.articulo || '').split('\n').filter(p => p.trim())
-      .map(p => `<p>${p.trim()}</p>`).join('');
-
-    const sourceChips = (sources || []).map(s => `
-      <span class="source-chip">
-        <div class="trust-dot" style="background:${trustColor(s.score)}"></div>
-        ${s.name}
-        <span class="trust-score">${s.score}</span>
-      </span>`).join('');
-
-    const rawItems = (rawArticles || []).map(a => `
-      <div class="raw-item">
-        <div class="raw-meta">${a.source} · ${new Date(a.publishedAt).toLocaleDateString('es-ES')}</div>
-        <a href="${a.url}" target="_blank" rel="noopener">${a.title}</a>
-      </div>`).join('');
-
-    document.getElementById('main-content').innerHTML = `
-      <div class="article-wrap">
-        <div class="back-btn" onclick="showHome()">← Volver al inicio</div>
-        <div class="article-meta">
-          <span class="badge badge-ai">BriefAI</span>
-          <span class="badge badge-angle">${article.angulo || ''}</span>
-        </div>
-        <h1 class="article-title">${article.titulo}</h1>
-        <div class="article-byline">
-          Escrito por <strong>BriefAI</strong> · ${now} · Síntesis de ${(sources||[]).length} fuentes internacionales
-        </div>
-        ${image ? `<img class="article-img" src="${image}" alt="${article.titulo}" onerror="this.style.display='none'">` : ''}
-        <div class="article-summary">${article.resumen}</div>
-        <hr class="article-divider">
-        <div class="article-body">${paragraphs}</div>
-        <div class="sources-box">
-          <h3>Fuentes utilizadas</h3>
-          <div class="sources-list">${sourceChips}</div>
-          <span class="toggle-sources" onclick="document.getElementById('raw-list').classList.toggle('open'); this.textContent = this.textContent.includes('Ver') ? 'Ocultar artículos originales ▴' : 'Ver artículos originales ▾'">Ver artículos originales ▾</span>
-          <div class="raw-list" id="raw-list">${rawItems}</div>
-        </div>
-      </div>`;
-  }
-
-  document.getElementById('topic-input').addEventListener('keydown', e => {
-    if (e.key === 'Enter') searchTopic();
+  // Lazy load with IntersectionObserver
+  SECTIONS.forEach(s=>{
+    const el = document.getElementById('section-'+s.key);
+    const obs = new IntersectionObserver(entries=>{
+      if(entries[0].isIntersecting){
+        obs.disconnect();
+        loadSection(s);
+      }
+    },{rootMargin:'200px'});
+    obs.observe(el);
+    observers.push(obs);
   });
+}
+
+async function loadSection(s){
+  if(sectionData[s.key]) return renderSection(s, sectionData[s.key]);
+  try{
+    const res = await fetch('/api/news',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'section',section:s.key}),
+    });
+    const data = await res.json();
+    if(!res.ok) throw new Error(data.error);
+    sectionData[s.key]=data;
+    renderSection(s,data);
+  }catch(e){
+    const grid=document.getElementById('grid-'+s.key);
+    if(grid) grid.innerHTML=`<div class="error" style="grid-column:1/-1">Error cargando ${s.label}</div>`;
+    const sub=document.getElementById('subtitle-'+s.key);
+    if(sub) sub.textContent='';
+  }
+}
+
+function renderSection(s, data){
+  const grid=document.getElementById('grid-'+s.key);
+  const sub=document.getElementById('subtitle-'+s.key);
+  if(!grid) return;
+  if(sub) sub.textContent='Actualizado ahora';
+
+  const top4 = (data.top4||[]).slice(0,4);
+  if(top4.length===0){
+    grid.innerHTML=`<p style="color:var(--text3);font-size:13px;grid-column:1/-1">No hay noticias disponibles ahora mismo.</p>`;
+    return;
+  }
+
+  grid.innerHTML = top4.map(a=>`
+    <div class="card" onclick="setTopic('${a.topic.replace(/'/g,"\\'")}')">
+      ${a.image
+        ?`<img class="card-img" src="${a.image}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+           <div class="card-no-img" style="display:none">${s.icon}</div>`
+        :`<div class="card-no-img">${s.icon}</div>`}
+      <div class="card-body">
+        <div class="card-label">${s.label}</div>
+        <div class="card-title">${a.topic}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── SEARCH ────────────────────────────────────────────────────────────────
+function setTopic(t){
+  document.getElementById('topic-input').value=t;
+  searchTopic();
+}
+
+async function searchTopic(){
+  const topic=document.getElementById('topic-input').value.trim();
+  if(!topic) return;
+  const lang=getLang();
+
+  const steps=[
+    'Escaneando fuentes internacionales...',
+    'Consultando Reuters, BBC, NYT...',
+    'Analizando perspectivas globales...',
+    'Contrastando y verificando datos...',
+    'Redactando artículo completo...',
+    'Revisando neutralidad y precisión...',
+    'Casi listo...',
+  ];
+  let si=0;
+  document.getElementById('main').innerHTML=`
+    <div class="loading">
+      <div class="spinner"></div>
+      <div class="loading-step" id="lstep">${steps[0]}</div>
+      <div class="loading-bar-wrap"><div class="loading-bar" id="lbar"></div></div>
+      <p style="margin-top:12px">BriefAI genera artículos de 2000+ palabras · 20-30 segundos</p>
+    </div>`;
+
+  const iv=setInterval(()=>{
+    si=Math.min(si+1,steps.length-1);
+    const el=document.getElementById('lstep');
+    const bar=document.getElementById('lbar');
+    if(el) el.textContent=steps[si];
+    if(bar) bar.style.width=Math.round((si/(steps.length-1))*90)+'%';
+  },3500);
+
+  try{
+    const res=await fetch('/api/news',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'article',topic,lang}),
+    });
+    clearInterval(iv);
+    const bar=document.getElementById('lbar');
+    if(bar) bar.style.width='100%';
+    const data=await res.json();
+    if(!res.ok) throw new Error(data.error||'Error del servidor');
+    if(!data.article) throw new Error('No se recibió artículo');
+    renderArticle(data,topic);
+  }catch(e){
+    clearInterval(iv);
+    document.getElementById('main').innerHTML=`<div class="error">Error: ${e.message}</div>`;
+  }
+}
+
+// ── RENDER ARTICLE ────────────────────────────────────────────────────────
+function renderArticle(data,topic){
+  const {article,image,sources,rawArticles}=data;
+  const now=new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
+  const paragraphs=(article.articulo||'').split('\n').filter(p=>p.trim()).map(p=>`<p>${p.trim()}</p>`).join('');
+  const chips=(sources||[]).map(s=>`
+    <span class="chip">
+      <div class="tdot" style="background:${trustColor(s.score)}"></div>
+      ${s.name}<span class="tscore">${s.score}</span>
+    </span>`).join('');
+  const raws=(rawArticles||[]).map(a=>`
+    <div class="raw-item">
+      <div class="raw-meta">${a.source} · ${new Date(a.publishedAt).toLocaleDateString('es-ES')}</div>
+      <a href="${a.url}" target="_blank" rel="noopener">${a.title}</a>
+    </div>`).join('');
+
+  document.getElementById('main').innerHTML=`
+    <div class="article-wrap">
+      <div class="back-btn" onclick="showHome()">← Volver al inicio</div>
+      <div class="a-meta">
+        <span class="badge badge-ai">BriefAI</span>
+        <span class="badge badge-angle">${article.angulo||''}</span>
+      </div>
+      <h1 class="a-title">${article.titulo}</h1>
+      <div class="a-byline">Escrito por <strong>BriefAI</strong> · ${now} · Síntesis de ${(sources||[]).length} fuentes internacionales</div>
+      ${image?`<img class="a-img" src="${image}" alt="" onerror="this.style.display='none'">`:''}
+      <div class="a-summary">${article.resumen}</div>
+      <hr class="a-divider"/>
+      <div class="a-body">${paragraphs}</div>
+      <div class="sources-box">
+        <h3>Fuentes utilizadas</h3>
+        <div class="sources-list">${chips}</div>
+        <span class="toggle-src" onclick="document.getElementById('raws').classList.toggle('open');this.textContent=this.textContent.includes('Ver')?'Ocultar artículos ▴':'Ver artículos originales ▾'">Ver artículos originales ▾</span>
+        <div class="raw-list" id="raws">${raws}</div>
+      </div>
+    </div>`;
+}
+
+document.getElementById('topic-input').addEventListener('keydown',e=>{if(e.key==='Enter')searchTopic();});
+
+showHome();
 </script>
 </body>
 </html>
