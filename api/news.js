@@ -5,105 +5,150 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { topic, lang } = req.body;
-  if (!topic) return res.status(400).json({ error: 'Missing topic' });
-
+  const { action, topic, lang } = req.body;
   const NEWS_KEY = process.env.NEWS_API_KEY;
   const CLAUDE_KEY = process.env.ANTHROPIC_API_KEY;
 
+  const TRUST = {
+    'Reuters': 98, 'Associated Press': 97, 'AP News': 97, 'BBC News': 96,
+    'The New York Times': 95, 'The Guardian': 94, 'Financial Times': 94,
+    'Bloomberg': 93, 'The Economist': 93, 'NPR': 92, 'The Washington Post': 90,
+    'Le Monde': 91, 'Der Spiegel': 90, 'Al Jazeera English': 88, 'CNN': 87,
+    'El País': 89, 'France 24': 88, 'Deutsche Welle': 89, 'Euronews': 85,
+    'Forbes': 82, 'Business Insider': 78, 'NBC News': 88, 'ABC News': 87,
+    'CBS News': 87, 'Fox News': 75, 'The Hill': 82, 'Politico': 85,
+    'Axios': 86, 'The Atlantic': 88, 'Time': 87, 'Newsweek': 78,
+    'USA Today': 82, 'Wall Street Journal': 92, 'Los Angeles Times': 88,
+  };
+
+  function getTrustScore(name) {
+    if (!name) return 65;
+    if (TRUST[name]) return TRUST[name];
+    const found = Object.entries(TRUST).find(([k]) =>
+      name.toLowerCase().includes(k.toLowerCase()) || k.toLowerCase().includes(name.toLowerCase())
+    );
+    return found ? found[1] : 65;
+  }
+
+  // ── TRENDING TOPICS + TOP 4 ──────────────────────────────────────────────
+  if (action === 'trending') {
+    try {
+      const url = `https://newsapi.org/v2/top-headlines?country=us&pageSize=30&apiKey=${NEWS_KEY}`;
+      const r = await fetch(url);
+      const d = await r.json();
+      if (d.status !== 'ok') return res.status(500).json({ error: d.message });
+
+      const articles = (d.articles || []).filter(a => a.title && a.title !== '[Removed]');
+      const headlines = articles.slice(0, 20).map(a => a.title).join('\n');
+
+      const prompt = `Given these current US news headlines, extract the 8 most trending specific topics.
+Headlines:
+${headlines}
+
+Respond ONLY with a JSON array of 8 short topic labels in English (2-4 words each), no backticks:
+["Topic 1","Topic 2","Topic 3","Topic 4","Topic 5","Topic 6","Topic 7","Topic 8"]
+Be specific — use real names and events from the headlines (e.g. "Trump tariffs" not "Politics").`;
+
+      const cr = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': CLAUDE_KEY, 'anthropic-version': '2023-06-01' },
+        body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 200, messages: [{ role: 'user', content: prompt }] }),
+      });
+      const cd = await cr.json();
+      if (cd.error) return res.status(500).json({ error: cd.error.message });
+
+      const text = cd.content.map(i => i.text || '').join('');
+      const topics = JSON.parse(text.replace(/```json|```/g, '').trim());
+
+      const top4 = articles.slice(0, 4).map(a => ({
+        title: a.title,
+        source: a.source?.name || 'Unknown',
+        image: a.urlToImage || null,
+        url: a.url,
+        description: a.description || '',
+        topic: a.title.split(' ').slice(0, 4).join(' '),
+      }));
+
+      return res.status(200).json({ topics, top4 });
+    } catch (e) {
+      return res.status(500).json({ error: e.message });
+    }
+  }
+
+  // ── FULL ARTICLE ─────────────────────────────────────────────────────────
+  if (!topic) return res.status(400).json({ error: 'Missing topic' });
+
   try {
-    // 1. Fetch real articles from NewsAPI
-    const newsUrl = `https://newsapi.org/v2/everything?q=${encodeURIComponent(topic)}&language=en&sortBy=publishedAt&pageSize=12&apiKey=${NEWS_KEY}`;
-    const newsRes = await fetch(newsUrl);
-    const newsData = await newsRes.json();
+    const url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(topic)}&language=en&sortBy=publishedAt&pageSize=15&apiKey=${NEWS_KEY}`;
+    const r = await fetch(url);
+    const d = await r.json();
+    if (d.status !== 'ok') return res.status(500).json({ error: d.message });
 
-    if (newsData.status !== 'ok') {
-      return res.status(500).json({ error: newsData.message || 'NewsAPI error' });
-    }
-
-    const articles = (newsData.articles || [])
+    const articles = (d.articles || [])
       .filter(a => a.title && a.description && a.title !== '[Removed]')
-      .slice(0, 10);
+      .slice(0, 12);
 
-    if (articles.length === 0) {
-      return res.status(404).json({ error: 'No articles found for this topic' });
-    }
+    if (articles.length === 0) return res.status(404).json({ error: 'No articles found for this topic' });
 
-    // 2. Build prompt for Claude
-    const LANG_INSTRUCTIONS = {
-      en: 'Write the titulo and resumen in English.',
-      es: 'Escribe el titulo y resumen en español.',
-      fr: 'Écris le titre et le résumé en français.',
-      de: 'Schreibe den Titel und die Zusammenfassung auf Deutsch.',
-      it: 'Scrivi il titolo e il riassunto in italiano.',
-      pt: 'Escreve o título e o resumo em português.',
+    const image = (articles.find(a => a.urlToImage?.startsWith('http')) || {}).urlToImage || null;
+
+    const sources = [...new Map(
+      articles.map(a => [a.source?.name, { name: a.source?.name || 'Unknown', score: getTrustScore(a.source?.name) }])
+    ).values()];
+
+    const LANG = {
+      en: 'Write entirely in English.',
+      es: 'Escribe completamente en español.',
+      fr: 'Écris entièrement en français.',
+      de: 'Schreibe vollständig auf Deutsch.',
+      it: 'Scrivi interamente in italiano.',
+      pt: 'Escreve completamente em português.',
     };
 
     const summaries = articles.map((a, i) =>
-      `[${i + 1}] ${a.source.name}: "${a.title}" — ${a.description}`
+      `[${i + 1}] ${a.source?.name || 'Unknown'}: "${a.title}" — ${a.description}`
     ).join('\n');
 
-    const langInstruction = LANG_INSTRUCTIONS[lang] || LANG_INSTRUCTIONS['en'];
+    const prompt = `You are BriefAI, an unbiased AI journalist. Write a complete professional news article about "${topic}" based on these real sources:
 
-    const prompt = `You are NewsAI synthesis engine. Analyze these real articles about "${topic}":
 ${summaries}
 
-${langInstruction}
-Respond ONLY with valid JSON array, no backticks, no extra text:
-[
-  {
-    "titulo": "Clear headline max 12 words",
-    "resumen": "3-4 sentence neutral synthesis based strictly on the articles above. Include concrete data if present.",
-    "fuentes": ["source1","source2","source3"],
-    "articulos_usados": [1,2,3],
-    "angulo": "geographic region or angle",
-    "tendencia": "neutro"
-  }
-]
-Rules: fuentes = real media names from articles used. articulos_usados = 1-based indices. tendencia: neutro/positivo/negativo. Generate exactly 3 items.`;
+${LANG[lang] || LANG['es']}
 
-    // 3. Call Claude API securely from server
-    const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
+Respond ONLY with valid JSON, no backticks, no markdown:
+{
+  "titulo": "Compelling journalistic headline (max 15 words)",
+  "resumen": "Executive summary of 120-150 words. Neutral and informative.",
+  "articulo": "Full 2000-2500 word article. Well-structured flowing paragraphs covering: background and context, key facts and data from sources, different perspectives and reactions, analysis and implications, conclusion. Professional journalistic style. No subheadings.",
+  "fuentes_usadas": [1,2,3,4,5],
+  "angulo": "Main angle (e.g. Economic, Political, International)",
+  "tendencia": "neutro"
+}`;
+
+    const cr = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': CLAUDE_KEY,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1200,
-        messages: [{ role: 'user', content: prompt }],
-      }),
+      headers: { 'Content-Type': 'application/json', 'x-api-key': CLAUDE_KEY, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 4096, messages: [{ role: 'user', content: prompt }] }),
     });
 
-    const claudeData = await claudeRes.json();
+    const cd = await cr.json();
+    if (cd.error) return res.status(500).json({ error: 'Claude: ' + cd.error.message });
+    if (!cd.content) return res.status(500).json({ error: 'No response from Claude' });
 
-    if (claudeData.error) {
-      return res.status(500).json({ error: 'Claude API error: ' + claudeData.error.message });
-    }
-
-    if (!claudeData.content || !Array.isArray(claudeData.content)) {
-      return res.status(500).json({ error: 'Respuesta inesperada de Claude: ' + JSON.stringify(claudeData) });
-    }
-
-    const text = claudeData.content.map(i => i.text || '').join('');
+    const text = cd.content.map(i => i.text || '').join('');
     const clean = text.replace(/```json|```/g, '').trim();
 
-    let synthesized;
-    try {
-      synthesized = JSON.parse(clean);
-    } catch (parseErr) {
-      return res.status(500).json({ error: 'Error al parsear respuesta de Claude: ' + clean.slice(0, 200) });
-    }
+    let article;
+    try { article = JSON.parse(clean); }
+    catch (e) { return res.status(500).json({ error: 'Parse error: ' + clean.slice(0, 200) }); }
 
-    if (!Array.isArray(synthesized) || synthesized.length === 0) {
-      return res.status(500).json({ error: 'Claude no devolvió artículos válidos' });
-    }
+    const rawArticles = (article.fuentes_usadas || [])
+      .map(i => articles[i - 1]).filter(Boolean)
+      .map(a => ({ title: a.title, source: a.source?.name || 'Unknown', url: a.url, publishedAt: a.publishedAt }));
 
-    return res.status(200).json({ synthesized, articles });
+    return res.status(200).json({ article, image, sources, rawArticles });
 
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
   }
 }
