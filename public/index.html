@@ -106,6 +106,8 @@
     .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin .7s linear infinite; margin-bottom: 1rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading p { font-size: 14px; margin-top: 6px; color: var(--text3); }
+    .loading-progress { width: 240px; height: 3px; background: var(--bg3); border-radius: 2px; margin: 14px auto 0; overflow: hidden; }
+    .loading-bar { height: 100%; width: 0%; background: var(--blue); border-radius: 2px; transition: width 3s ease; }
     .error { color: #991b1b; background: #fef2f2; border: 0.5px solid #fca5a5; border-radius: var(--radius); padding: .875rem 1rem; font-size: 14px; }
 
     /* ── FOOTER ── */
@@ -240,12 +242,32 @@
     if (!topic) return;
     const lang = getLang();
 
+    // Show animated loading with step messages
+    const steps = [
+      'Escaneando titulares internacionales...',
+      'Consultando Reuters, BBC, NYT...',
+      'Analizando perspectivas globales...',
+      'Contrastando fuentes...',
+      'Redactando artículo completo...',
+      'Revisando neutralidad y precisión...',
+      'Casi listo...',
+    ];
+    let stepIdx = 0;
     document.getElementById('main-content').innerHTML = `
       <div class="loading">
         <div class="spinner"></div>
-        <div>Buscando fuentes internacionales...</div>
-        <p>Generando artículo completo con IA · puede tardar 20-30 segundos</p>
+        <div id="loading-step">${steps[0]}</div>
+        <div class="loading-progress"><div class="loading-bar" id="loading-bar"></div></div>
+        <p>BriefAI genera artículos de 2000+ palabras · 20-30 segundos</p>
       </div>`;
+
+    const stepInterval = setInterval(() => {
+      stepIdx = Math.min(stepIdx + 1, steps.length - 1);
+      const el = document.getElementById('loading-step');
+      const bar = document.getElementById('loading-bar');
+      if (el) el.textContent = steps[stepIdx];
+      if (bar) bar.style.width = Math.round((stepIdx / (steps.length - 1)) * 90) + '%';
+    }, 3500);
 
     try {
       const res = await fetch('/api/news', {
@@ -253,12 +275,16 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'article', topic, lang }),
       });
+      clearInterval(stepInterval);
+      const bar = document.getElementById('loading-bar');
+      if (bar) bar.style.width = '100%';
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Error del servidor');
       if (!data.article) throw new Error('No se recibió artículo');
 
       renderArticle(data, topic);
     } catch (e) {
+      clearInterval(stepInterval);
       document.getElementById('main-content').innerHTML =
         `<div class="error">Error: ${e.message}</div>`;
     }
