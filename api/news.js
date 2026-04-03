@@ -58,18 +58,20 @@ Be specific — use real names and events from the headlines (e.g. "Trump tariff
       if (cd.error) return res.status(500).json({ error: cd.error.message });
 
       const text = cd.content.map(i => i.text || '').join('');
-      const topics = JSON.parse(text.replace(/```json|```/g, '').trim());
+      const allTopics = JSON.parse(text.replace(/```json|```/g, '').trim());
 
-      const top4 = articles.slice(0, 4).map(a => ({
-        title: a.title,
-        source: a.source?.name || 'Unknown',
-        image: a.urlToImage || null,
-        url: a.url,
-        description: a.description || '',
-        topic: a.title.split(' ').slice(0, 4).join(' '),
-      }));
+      // Top 4 become homepage cards (searchable topics), rest are tags
+      const top4 = allTopics.slice(0, 4).map(topic => {
+        const match = articles.find(a =>
+          a.urlToImage && topic.toLowerCase().split(' ').some(w => a.title.toLowerCase().includes(w))
+        );
+        return {
+          topic,
+          image: match?.urlToImage || articles.find(a => a.urlToImage)?.urlToImage || null,
+        };
+      });
 
-      return res.status(200).json({ topics, top4 });
+      return res.status(200).json({ topics: allTopics, top4 });
     } catch (e) {
       return res.status(500).json({ error: e.message });
     }
@@ -151,4 +153,3 @@ Respond ONLY with valid JSON, no backticks, no markdown:
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }
-}
