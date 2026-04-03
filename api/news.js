@@ -78,9 +78,28 @@ Rules: fuentes = real media names from articles used. articulos_usados = 1-based
     });
 
     const claudeData = await claudeRes.json();
+
+    if (claudeData.error) {
+      return res.status(500).json({ error: 'Claude API error: ' + claudeData.error.message });
+    }
+
+    if (!claudeData.content || !Array.isArray(claudeData.content)) {
+      return res.status(500).json({ error: 'Respuesta inesperada de Claude: ' + JSON.stringify(claudeData) });
+    }
+
     const text = claudeData.content.map(i => i.text || '').join('');
     const clean = text.replace(/```json|```/g, '').trim();
-    const synthesized = JSON.parse(clean);
+
+    let synthesized;
+    try {
+      synthesized = JSON.parse(clean);
+    } catch (parseErr) {
+      return res.status(500).json({ error: 'Error al parsear respuesta de Claude: ' + clean.slice(0, 200) });
+    }
+
+    if (!Array.isArray(synthesized) || synthesized.length === 0) {
+      return res.status(500).json({ error: 'Claude no devolvió artículos válidos' });
+    }
 
     return res.status(200).json({ synthesized, articles });
 
