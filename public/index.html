@@ -196,17 +196,17 @@
         `<div class="tag" onclick="setTopic('${t.replace(/'/g, "\\'")}')">${t}</div>`
       ).join('');
 
-      // Render top 4 homepage cards
+      // Render top 4 homepage cards (topic-based, AI will generate articles)
       const grid = document.getElementById('home-grid');
       grid.innerHTML = (data.top4 || []).map(a => `
-        <div class="home-card" onclick="setTopic('${a.title.replace(/'/g, "\\'").slice(0, 60)}')">
+        <div class="home-card" onclick="setTopic('${a.topic.replace(/'/g, "\\'")}')">
           ${a.image
             ? `<img class="home-card-img" src="${a.image}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
                <div class="home-card-img-placeholder" style="display:none">📰</div>`
             : `<div class="home-card-img-placeholder">📰</div>`}
           <div class="home-card-body">
-            <div class="home-card-source">${a.source}</div>
-            <div class="home-card-title">${a.title}</div>
+            <div class="home-card-source">BriefAI · Tendencia ahora</div>
+            <div class="home-card-title">${a.topic}</div>
           </div>
         </div>`).join('');
 
