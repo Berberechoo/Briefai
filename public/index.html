@@ -240,12 +240,20 @@
         body: JSON.stringify({ topic, lang }),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.error || 'Error del servidor');
+        throw new Error(data.error || 'Error del servidor (' + res.status + ')');
       }
 
-      const data = await res.json();
+      if (!data.synthesized || !Array.isArray(data.synthesized) || data.synthesized.length === 0) {
+        throw new Error('No se pudo sintetizar. Respuesta: ' + JSON.stringify(data).slice(0, 300));
+      }
+
+      if (!data.articles || !Array.isArray(data.articles)) {
+        throw new Error('No se recibieron artículos');
+      }
+
       renderResults(data.synthesized, data.articles, topic);
       startAutoRefresh();
 
