@@ -27,7 +27,7 @@ export default async function handler(req, res) {
   };
 
   const SECTION_QUERIES = {
-    usa:        { q: null, country: 'us', category: 'general' },
+    usa:        { q: 'United States news politics economy today', country: null },
     world:      { q: 'world international news', country: null },
     sports:     { q: 'sports football basketball soccer', country: null },
     motor:      { q: 'F1 Formula 1 MotoGP motorsport racing', country: null },
@@ -54,11 +54,7 @@ export default async function handler(req, res) {
     const cfg = SECTION_QUERIES[sectionKey];
     if (!cfg) return [];
     let url;
-    if (cfg.country) {
-      url = `https://newsapi.org/v2/top-headlines?country=${cfg.country}&pageSize=20&apiKey=${NEWS_KEY}`;
-    } else {
-      url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(cfg.q)}&language=en&sortBy=publishedAt&pageSize=20&apiKey=${NEWS_KEY}`;
-    }
+    url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(cfg.q)}&language=en&sortBy=publishedAt&pageSize=20&apiKey=${NEWS_KEY}`;
     const r = await fetch(url);
     const d = await r.json();
     if (d.status !== 'ok') return [];
