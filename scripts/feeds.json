@@ -1,0 +1,524 @@
+[
+ {
+  "name": "NPR",
+  "url": "https://feeds.npr.org/1001/rss.xml",
+  "section": "usa",
+  "trust": 92
+ },
+ {
+  "name": "The New York Times",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/US.xml",
+  "section": "usa",
+  "trust": 95
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/us-news/rss",
+  "section": "usa",
+  "trust": 94
+ },
+ {
+  "name": "The Washington Post",
+  "url": "https://feeds.washingtonpost.com/rss/national",
+  "section": "usa",
+  "trust": 90
+ },
+ {
+  "name": "CBS News",
+  "url": "https://www.cbsnews.com/latest/rss/main",
+  "section": "usa",
+  "trust": 87
+ },
+ {
+  "name": "ABC News",
+  "url": "https://abcnews.go.com/abcnews/topstories",
+  "section": "usa",
+  "trust": 87
+ },
+ {
+  "name": "CNN",
+  "url": "http://rss.cnn.com/rss/cnn_topstories.rss",
+  "section": "usa",
+  "trust": 87
+ },
+ {
+  "name": "BBC News",
+  "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+  "section": "world",
+  "trust": 96
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/world/rss",
+  "section": "world",
+  "trust": 94
+ },
+ {
+  "name": "Al Jazeera",
+  "url": "https://www.aljazeera.com/xml/rss/all.xml",
+  "section": "world",
+  "trust": 88
+ },
+ {
+  "name": "Deutsche Welle",
+  "url": "https://rss.dw.com/xml/rss-en-all",
+  "section": "world",
+  "trust": 89
+ },
+ {
+  "name": "France 24",
+  "url": "https://www.france24.com/en/rss",
+  "section": "world",
+  "trust": 88
+ },
+ {
+  "name": "The New York Times",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml",
+  "section": "world",
+  "trust": 95
+ },
+ {
+  "name": "NPR",
+  "url": "https://feeds.npr.org/1004/rss.xml",
+  "section": "world",
+  "trust": 92
+ },
+ {
+  "name": "Sky News",
+  "url": "https://feeds.skynews.com/feeds/rss/world.xml",
+  "section": "world",
+  "trust": 86
+ },
+ {
+  "name": "Euronews",
+  "url": "https://www.euronews.com/rss",
+  "section": "world",
+  "trust": 85
+ },
+ {
+  "name": "CNN",
+  "url": "http://rss.cnn.com/rss/edition_world.rss",
+  "section": "world",
+  "trust": 87
+ },
+ {
+  "name": "Le Monde",
+  "url": "https://www.lemonde.fr/en/rss/une.xml",
+  "section": "world",
+  "trust": 91
+ },
+ {
+  "name": "Der Spiegel",
+  "url": "https://www.spiegel.de/international/index.rss",
+  "section": "world",
+  "trust": 90
+ },
+ {
+  "name": "BBC Sport",
+  "url": "https://feeds.bbci.co.uk/sport/rss.xml",
+  "section": "sports",
+  "trust": 86
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/uk/sport/rss",
+  "section": "sports",
+  "trust": 94
+ },
+ {
+  "name": "The New York Times",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml",
+  "section": "sports",
+  "trust": 95
+ },
+ {
+  "name": "ESPN",
+  "url": "https://www.espn.com/espn/rss/news",
+  "section": "sports",
+  "trust": 85
+ },
+ {
+  "name": "Sky Sports",
+  "url": "https://www.skysports.com/rss/12040",
+  "section": "sports",
+  "trust": 84
+ },
+ {
+  "name": "The Washington Post",
+  "url": "https://feeds.washingtonpost.com/rss/sports",
+  "section": "sports",
+  "trust": 90
+ },
+ {
+  "name": "BBC Sport F1",
+  "url": "https://feeds.bbci.co.uk/sport/formula1/rss.xml",
+  "section": "motor",
+  "trust": 86
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/sport/formulaone/rss",
+  "section": "motor",
+  "trust": 94
+ },
+ {
+  "name": "Motorsport.com",
+  "url": "https://www.motorsport.com/rss/all/news/",
+  "section": "motor",
+  "trust": 84
+ },
+ {
+  "name": "Autosport",
+  "url": "https://www.autosport.com/rss/feed/all",
+  "section": "motor",
+  "trust": 85
+ },
+ {
+  "name": "RaceFans",
+  "url": "https://www.racefans.net/feed/",
+  "section": "motor",
+  "trust": 83
+ },
+ {
+  "name": "BBC Business",
+  "url": "https://feeds.bbci.co.uk/news/business/rss.xml",
+  "section": "economy",
+  "trust": 96
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/uk/business/rss",
+  "section": "economy",
+  "trust": 94
+ },
+ {
+  "name": "The New York Times",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
+  "section": "economy",
+  "trust": 95
+ },
+ {
+  "name": "CNBC",
+  "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
+  "section": "economy",
+  "trust": 85
+ },
+ {
+  "name": "NPR",
+  "url": "https://feeds.npr.org/1006/rss.xml",
+  "section": "economy",
+  "trust": 92
+ },
+ {
+  "name": "The Washington Post",
+  "url": "https://feeds.washingtonpost.com/rss/business",
+  "section": "economy",
+  "trust": 90
+ },
+ {
+  "name": "The Economist",
+  "url": "https://www.economist.com/finance-and-economics/rss.xml",
+  "section": "economy",
+  "trust": 93
+ },
+ {
+  "name": "Sky News",
+  "url": "https://feeds.skynews.com/feeds/rss/business.xml",
+  "section": "economy",
+  "trust": 86
+ },
+ {
+  "name": "BBC Technology",
+  "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
+  "section": "tech",
+  "trust": 96
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/uk/technology/rss",
+  "section": "tech",
+  "trust": 94
+ },
+ {
+  "name": "The New York Times",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+  "section": "tech",
+  "trust": 95
+ },
+ {
+  "name": "NPR",
+  "url": "https://feeds.npr.org/1019/rss.xml",
+  "section": "tech",
+  "trust": 92
+ },
+ {
+  "name": "Ars Technica",
+  "url": "https://feeds.arstechnica.com/arstechnica/index",
+  "section": "tech",
+  "trust": 85
+ },
+ {
+  "name": "The Verge",
+  "url": "https://www.theverge.com/rss/index.xml",
+  "section": "tech",
+  "trust": 80
+ },
+ {
+  "name": "TechCrunch",
+  "url": "https://techcrunch.com/feed/",
+  "section": "tech",
+  "trust": 78
+ },
+ {
+  "name": "Wired",
+  "url": "https://www.wired.com/feed/rss",
+  "section": "tech",
+  "trust": 82
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/environment/climate-crisis/rss",
+  "section": "climate",
+  "trust": 94
+ },
+ {
+  "name": "The New York Times",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Climate.xml",
+  "section": "climate",
+  "trust": 95
+ },
+ {
+  "name": "Carbon Brief",
+  "url": "https://www.carbonbrief.org/feed",
+  "section": "climate",
+  "trust": 88
+ },
+ {
+  "name": "Inside Climate News",
+  "url": "https://insideclimatenews.org/feed/",
+  "section": "climate",
+  "trust": 85
+ },
+ {
+  "name": "Grist",
+  "url": "https://grist.org/feed/",
+  "section": "climate",
+  "trust": 82
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/artanddesign/rss",
+  "section": "art",
+  "trust": 94
+ },
+ {
+  "name": "The New York Times",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Arts.xml",
+  "section": "art",
+  "trust": 95
+ },
+ {
+  "name": "NPR",
+  "url": "https://feeds.npr.org/1008/rss.xml",
+  "section": "art",
+  "trust": 92
+ },
+ {
+  "name": "ARTnews",
+  "url": "https://www.artnews.com/feed/",
+  "section": "art",
+  "trust": 80
+ },
+ {
+  "name": "Hyperallergic",
+  "url": "https://hyperallergic.com/feed/",
+  "section": "art",
+  "trust": 78
+ },
+ {
+  "name": "BBC Arts",
+  "url": "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml",
+  "section": "art",
+  "trust": 96
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/music/rss",
+  "section": "music",
+  "trust": 94
+ },
+ {
+  "name": "The New York Times",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Music.xml",
+  "section": "music",
+  "trust": 95
+ },
+ {
+  "name": "NPR",
+  "url": "https://feeds.npr.org/1039/rss.xml",
+  "section": "music",
+  "trust": 92
+ },
+ {
+  "name": "Rolling Stone",
+  "url": "https://www.rollingstone.com/feed/",
+  "section": "music",
+  "trust": 82
+ },
+ {
+  "name": "Billboard",
+  "url": "https://www.billboard.com/feed/",
+  "section": "music",
+  "trust": 83
+ },
+ {
+  "name": "Pitchfork",
+  "url": "https://pitchfork.com/feed/feed-news/rss",
+  "section": "music",
+  "trust": 81
+ },
+ {
+  "name": "NME",
+  "url": "https://www.nme.com/feed",
+  "section": "music",
+  "trust": 78
+ },
+ {
+  "name": "People",
+  "url": "https://people.com/feed/",
+  "section": "celebrity",
+  "trust": 70
+ },
+ {
+  "name": "TMZ",
+  "url": "https://www.tmz.com/rss.xml",
+  "section": "celebrity",
+  "trust": 65
+ },
+ {
+  "name": "Page Six",
+  "url": "https://pagesix.com/feed/",
+  "section": "celebrity",
+  "trust": 62
+ },
+ {
+  "name": "Entertainment Weekly",
+  "url": "https://ew.com/feed/",
+  "section": "celebrity",
+  "trust": 72
+ },
+ {
+  "name": "Variety",
+  "url": "https://variety.com/feed/",
+  "section": "celebrity",
+  "trust": 80
+ },
+ {
+  "name": "Daily Mail Showbiz",
+  "url": "https://www.dailymail.co.uk/tvshowbiz/index.rss",
+  "section": "celebrity",
+  "trust": 55
+ },
+ {
+  "name": "Nature",
+  "url": "https://www.nature.com/nature.rss",
+  "section": "science",
+  "trust": 96
+ },
+ {
+  "name": "ScienceDaily",
+  "url": "https://www.sciencedaily.com/rss/all.xml",
+  "section": "science",
+  "trust": 80
+ },
+ {
+  "name": "NASA",
+  "url": "https://www.nasa.gov/rss/dyn/breaking_news.rss",
+  "section": "science",
+  "trust": 95
+ },
+ {
+  "name": "BBC Science",
+  "url": "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml",
+  "section": "science",
+  "trust": 96
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/science/rss",
+  "section": "science",
+  "trust": 94
+ },
+ {
+  "name": "The New York Times",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Science.xml",
+  "section": "science",
+  "trust": 95
+ },
+ {
+  "name": "New Scientist",
+  "url": "https://www.newscientist.com/feed/home/",
+  "section": "science",
+  "trust": 88
+ },
+ {
+  "name": "Phys.org",
+  "url": "https://phys.org/rss-feed/",
+  "section": "science",
+  "trust": 80
+ },
+ {
+  "name": "The Guardian",
+  "url": "https://www.theguardian.com/politics/rss",
+  "section": "politics",
+  "trust": 94
+ },
+ {
+  "name": "The New York Times",
+  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml",
+  "section": "politics",
+  "trust": 95
+ },
+ {
+  "name": "Politico",
+  "url": "https://rss.politico.com/politics-news.xml",
+  "section": "politics",
+  "trust": 85
+ },
+ {
+  "name": "The Hill",
+  "url": "https://thehill.com/feed/",
+  "section": "politics",
+  "trust": 82
+ },
+ {
+  "name": "NPR",
+  "url": "https://feeds.npr.org/1014/rss.xml",
+  "section": "politics",
+  "trust": 92
+ },
+ {
+  "name": "The Washington Post",
+  "url": "https://feeds.washingtonpost.com/rss/politics",
+  "section": "politics",
+  "trust": 90
+ },
+ {
+  "name": "BBC Politics",
+  "url": "https://feeds.bbci.co.uk/news/politics/rss.xml",
+  "section": "politics",
+  "trust": 96
+ },
+ {
+  "name": "Sky News",
+  "url": "https://feeds.skynews.com/feeds/rss/politics.xml",
+  "section": "politics",
+  "trust": 86
+ },
+ {
+  "name": "CBS News",
+  "url": "https://www.cbsnews.com/latest/rss/politics",
+  "section": "politics",
+  "trust": 87
+ }
+]
