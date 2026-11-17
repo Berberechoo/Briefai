@@ -126,18 +126,6 @@
   "trust": 94
  },
  {
-  "name": "The New York Times",
-  "url": "https://rss.nytimes.com/services/xml/rss/nyt/Sports.xml",
-  "section": "sports",
-  "trust": 95
- },
- {
-  "name": "ESPN",
-  "url": "https://www.espn.com/espn/rss/news",
-  "section": "sports",
-  "trust": 85
- },
- {
   "name": "Sky Sports",
   "url": "https://www.skysports.com/rss/12040",
   "section": "sports",
@@ -172,12 +160,6 @@
   "url": "https://www.autosport.com/rss/feed/all",
   "section": "motor",
   "trust": 85
- },
- {
-  "name": "RaceFans",
-  "url": "https://www.racefans.net/feed/",
-  "section": "motor",
-  "trust": 83
  },
  {
   "name": "BBC Business",
@@ -384,12 +366,6 @@
   "trust": 78
  },
  {
-  "name": "People",
-  "url": "https://people.com/feed/",
-  "section": "celebrity",
-  "trust": 70
- },
- {
   "name": "TMZ",
   "url": "https://www.tmz.com/rss.xml",
   "section": "celebrity",
@@ -400,18 +376,6 @@
   "url": "https://pagesix.com/feed/",
   "section": "celebrity",
   "trust": 62
- },
- {
-  "name": "Entertainment Weekly",
-  "url": "https://ew.com/feed/",
-  "section": "celebrity",
-  "trust": 72
- },
- {
-  "name": "Variety",
-  "url": "https://variety.com/feed/",
-  "section": "celebrity",
-  "trust": 80
  },
  {
   "name": "Daily Mail Showbiz",
@@ -520,5 +484,59 @@
   "url": "https://www.cbsnews.com/latest/rss/politics",
   "section": "politics",
   "trust": 87
+ },
+ {
+  "name": "The Guardian Football",
+  "url": "https://www.theguardian.com/football/rss",
+  "section": "sports",
+  "trust": 94
+ },
+ {
+  "name": "BBC Football",
+  "url": "https://feeds.bbci.co.uk/sport/football/rss.xml",
+  "section": "sports",
+  "trust": 86
+ },
+ {
+  "name": "CBS Sports",
+  "url": "https://www.cbssports.com/rss/headlines/",
+  "section": "sports",
+  "trust": 84
+ },
+ {
+  "name": "Crash.net",
+  "url": "https://www.crash.net/rss",
+  "section": "motor",
+  "trust": 80
+ },
+ {
+  "name": "PlanetF1",
+  "url": "https://www.planetf1.com/feed",
+  "section": "motor",
+  "trust": 78
+ },
+ {
+  "name": "Sky News Entertainment",
+  "url": "https://feeds.skynews.com/feeds/rss/entertainment.xml",
+  "section": "celebrity",
+  "trust": 86
+ },
+ {
+  "name": "CNN Entertainment",
+  "url": "http://rss.cnn.com/rss/edition_entertainment.rss",
+  "section": "celebrity",
+  "trust": 87
+ },
+ {
+  "name": "Us Weekly",
+  "url": "https://www.usmagazine.com/feed/",
+  "section": "celebrity",
+  "trust": 65
+ },
+ {
+  "name": "Just Jared",
+  "url": "https://www.justjared.com/feed/",
+  "section": "celebrity",
+  "trust": 60
  }
 ]
