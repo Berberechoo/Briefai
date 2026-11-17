@@ -1,0 +1,39 @@
+name: Update news
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # cada 30 minutos
+  workflow_dispatch:          # permite lanzarlo a mano desde la pestaña Actions
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-news
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Descargar feeds
+        run: node scripts/fetch-feeds.mjs
+
+      - name: Publicar datos en la rama "data"
+        run: |
+          mkdir -p /tmp/pub
+          cp data/news.json data/report.json /tmp/pub/
+          cd /tmp/pub
+          git init -q -b data
+          git config user.name "briefai-bot"
+          git config user.email "bot@briefai.world"
+          git add .
+          git commit -q -m "Update news data"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" data
